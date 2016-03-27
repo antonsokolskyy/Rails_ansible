@@ -1,0 +1,12 @@
+# To which hosts we want to apply this play
+- hosts: all
+  # Log in as user
+  remote_user: '{{deploy_user_name}}'
+  # Don't need to gather facts about the system
+  gather_facts: no
+
+  tasks:   
+    - include: ../tasks/install_rvm.yml
+    - include: ../tasks/install_ruby.yml
+    - include: ../tasks/project_setup.yml
+    # - include: ../tasks/app.yml

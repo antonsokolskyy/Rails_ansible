@@ -1,0 +1,13 @@
+- name: create user
+  # use user module
+  user:
+    name: "{{deploy_user_name}}"
+    createhome: yes
+    shell: /bin/bash
+    generate_ssh_key: yes
+
+- name: add user to sudoers
+  shell: 'adduser {{deploy_user_name}} sudo'
+
+- name: change user password
+  shell: "echo {{deploy_user_name}}:{{deploy_user_password}} | /usr/sbin/chpasswd"

@@ -1,0 +1,17 @@
+# To which hosts we want to apply this play
+- hosts: all
+  # Use sudo
+  become: yes
+  # Log in as user
+  remote_user: '{{root_user}}'
+  # Don't need to gather facts about the system
+  gather_facts: no
+
+  tasks:
+    - include: ../tasks/create_user.yml
+    - include: ../tasks/copy_ssh.yml
+    - include: ../tasks/apt.yml
+    - name: find user ssh key
+      shell: cat /home/{{deploy_user_name}}/.ssh/id_rsa.pub
+      register: user_ssh
+    - debug: msg="{{user_ssh.stdout}}"

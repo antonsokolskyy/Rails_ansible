@@ -1,0 +1,25 @@
+- set_fact: socks_path={{ shared_path }}/tmp/socks
+  tags: always
+
+- name: Ensure sockets directory exists
+  file: path={{ socks_path }} state=directory
+  tags: always
+
+- set_fact: app_sock={{ socks_path }}/app.sock
+  tags: always
+
+- set_fact: pids_path={{ shared_path }}/tmp/pids
+  tags: always
+
+- name: Ensure pids directory exists
+  file: path={{ pids_path }} state=directory
+  tags: always
+
+- set_fact: app_pid={{ pids_path }}/passenger.pid
+  tags: always
+
+- set_fact: rvm_wrapper_command="cd {{ current_path }} && RAILS_ENV={{ rails_env_name }} rvm ruby-{{ ruby_version }}@{{ ruby_gemset }} --create do"
+  tags: always
+
+- include: ../tasks/app_stop.yml tags=stop
+- include: ../tasks/app_start.yml tags=start

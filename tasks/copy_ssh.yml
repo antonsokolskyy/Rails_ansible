@@ -1,0 +1,7 @@
+- name: copy my ssh key
+  # use authorized_key module
+  authorized_key:
+    # lookup function let's you copy the content from the specified file passed
+    key: "{{ lookup('file', '{{path_to_ssh_file}}') }}"
+    user: "{{deploy_user_name}}"
+    state: present
