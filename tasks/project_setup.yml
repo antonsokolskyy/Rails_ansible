@@ -2,7 +2,7 @@
 # ensure directories existance
 #
 
-- set_fact: timestamp={{ lookup('pipe', 'date +%Y%m%d%H%M%S') }}
+- set_fact: timestamp="{{ lookup('pipe', 'date +%Y%m%d%H%M%S') }}"
 - set_fact: release_path={{ app_path }}/releases/{{ timestamp }}
 
 - name: Ensure shared directory exists
