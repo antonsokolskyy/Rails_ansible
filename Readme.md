@@ -45,12 +45,12 @@ If you don't want to install rvm and deploy any app, you can create new user, in
 ### How it works:  
 
 ###### These steps are being taken after 'ansible-playbook playbook.yml' is called:
-- Create user for deploy (using root privileges on remote machine).
-- Copy your ssh key to remote machine in order to simplify further ssh connections.
+- Create user for deploy (using root privileges on remote machine)
+- Print new user ssh key to console
+- Copy your ssh key to remote machine in order to simplify further ssh connections
 - Install RDBMS, packages and libraries
 - Setup Postgresql and MySQL
-- Configure Nginx
-- Print new user ssh key to console  
+- Configure Nginx  
 
 ###### At this point root play is over. User play starts  
 
