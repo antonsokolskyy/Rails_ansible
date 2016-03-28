@@ -41,3 +41,4 @@
     - openssl
     - python-psycopg2
     - python-mysqldb
+    - libmysqlclient-dev
