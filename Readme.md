@@ -36,4 +36,20 @@ If you don't want to install rvm and deploy any app, you can create new user, in
 - 'ansible-playbook plays/restart.yml'
 ### How it works:
 
-Here will be process description
+###### These steps are being taken after 'ansible-playbook playbook.yml' is called:
+- Create user for deploy (using root privileges on remote machine).
+- Copy your ssh key to remote machine in order to simplify further ssh connections.
+- Install RDBMS, packages and libraries
+- Setup Postgresql and MySQL
+- Configure Nginx
+- Print new user ssh key to console
+###### At this point root play is over. User play starts
+- Install RVM
+- Install Ruby
+- Set up project directory(create subfolders and symlinks)
+- Pull project from git
+- Configure database.yml and secrets.yml
+- Install gems
+- Run migrations
+- Configure app server
+- Run the application
