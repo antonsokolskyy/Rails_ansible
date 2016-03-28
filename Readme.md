@@ -18,3 +18,22 @@ If you have already configured your ssh connection without password, you can ski
 Important!
 
 Do not forget to add target machine ssh key to repo you will be pull from.
+
+Configure Environment
+
+If you don't want to install rvm and deploy any app, you can create new user, install and configure Postgresql, MySQL, Nginx, NodeJs, Redis and common libraries such as libpq-dev, openssl etc by simply run:
+
+- 'ansible-playbook plays/root.yml'
+
+Deploy/Redeploy
+
+- 'ansible-playbook plays/deploy.yml'
+
+Restart
+
+- 'ansible-playbook plays/restart.yml'
+
+
+How it works:
+
+Here will be process description

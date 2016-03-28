@@ -1,1 +1,3 @@
 - name: stop unicorn
+  shell: "kill -9 `cat {{shared_path}}/tmp/pids/app.pid`"
+  ignore_errors: yes

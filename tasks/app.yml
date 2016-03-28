@@ -1,4 +1,4 @@
-- set_fact: socks_path={{ shared_path }}/tmp/socks
+- set_fact: socks_path={{ shared_path }}/tmp/sockets
   tags: always
 
 - name: Ensure sockets directory exists
@@ -15,11 +15,11 @@
   file: path={{ pids_path }} state=directory
   tags: always
 
-- set_fact: app_pid={{ pids_path }}/passenger.pid
+- set_fact: app_pid={{ pids_path }}/app.pid
   tags: always
 
-- set_fact: rvm_wrapper_command="cd {{ current_path }} && RAILS_ENV={{ rails_env_name }} rvm ruby-{{ ruby_version }}@{{ ruby_gemset }} --create do"
-  tags: always
+- name: Copy unicorn config
+  template: src=../configs/templates/unicorn_config.rb.j2 dest={{release_path}}/config/unicorn.rb
 
-- include: ../tasks/app_stop.yml tags=stop
-- include: ../tasks/app_start.yml tags=start
+- include: ../tasks/app_stop.yml
+- include: ../tasks/app_start.yml

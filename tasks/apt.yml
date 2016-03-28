@@ -30,6 +30,7 @@
     - libpq-dev
     - runit
     - postgresql
+    - postgresql-contrib
     - nginx
     - libpq-dev
     - nodejs
@@ -38,3 +39,5 @@
     - mysql-server
     - php5-mysql
     - openssl
+    - python-psycopg2
+    - python-mysqldb

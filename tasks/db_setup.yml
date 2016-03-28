@@ -1,0 +1,13 @@
+- name: Create Postgresql role
+  become_user: postgres
+  postgresql_user: name={{database_username}} password={{database_password}} role_attr_flags=CREATEDB,NOSUPERUSER,LOGIN
+
+- name: Create Postgresql DB
+  become_user: postgres
+  postgresql_db: name={{database_name}} encoding='UTF-8' owner={{database_username}}
+
+- name: Create MySQL role
+  mysql_user: name={{database_username}} password={{database_password}} priv=*.*:ALL state=present
+
+- name: Create MySQL DB
+  mysql_db: name={{database_name}}

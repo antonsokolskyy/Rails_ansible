@@ -2,8 +2,8 @@
 # ensure directories existance
 #
 
-- set_fact: timestamp="{{ lookup('pipe', 'date +%Y%m%d%H%M%S') }}"
-- set_fact: release_path='{{ app_path }}/releases/{{ timestamp }}'
+- set_fact: timestamp={{ lookup('pipe', 'date +%Y%m%d%H%M%S') }}
+- set_fact: release_path={{ app_path }}/releases/{{ timestamp }}
 
 - name: Ensure shared directory exists
   file: path={{ shared_path }} state=directory
@@ -49,41 +49,67 @@
   register: git_head_hash
 
 - name: Create REVISION file in the release path
-  copy: content="{{ git_head_hash.stdout }}" dest={{ release_path }}/REVISION
+  copy: content={{ git_head_hash.stdout }} dest={{ release_path }}/REVISION
 
 #
 # set release symlinks
 #
 
+- name: Remove assets folder
+  file: path={{ release_path }}/public/assets state=absent
+
 - name: Set assets link
   file: src={{ shared_path }}/assets path={{ release_path }}/public/assets state=link
+
+- name: Remove tmp folder
+  file: path={{ release_path }}/tmp state=absent
 
 - name: Set tmp link
   file: src={{ shared_path }}/tmp path={{ release_path }}/tmp state=link
 
-# - name: Set log link
-#   file: src={{ shared_path }}/log path={{ release_path }}/log state=link
+- name: Remove log folder
+  file: path={{ release_path }}/log state=absent
+
+- name: Set log link
+  file: src={{ shared_path }}/log path={{ release_path }}/log state=link
 
 #
 # prepare app
 #
 
+- name: Remove secrets.yml
+  file: path={{ release_path }}/config/secrets.yml state=absent
+
+- name: Remove database.yml
+  file: path={{ release_path }}/config/database.yml state=absent
+
 - name: Copy database.yml
   template: src=../configs/database.yml dest={{ release_path }}/config
 
-- name: Install bundler
-  command: bash -lc 'gem install bundler'
+- name: Copy secrets.yml
+  template: src=../configs/secrets.yml dest={{ release_path }}/config
 
-- set_fact: rvm_wrapper_command="cd {{ release_path }} && bash -lc RAILS_ENV={{ rails_env_name }} rvm ruby-{{ ruby_version }}@{{ ruby_gemset }} --create &&"
+- set_fact: rvm_wrapper_command="cd {{release_path}} && ~/.rvm/bin/rvm ruby-{{ruby_version}}@{{ruby_gemset}} --create do"
+
+- name: Install bundler
+  shell: "{{ rvm_wrapper_command }} bash -lc 'gem install bundler'"
+
+- name: check profile for secret_key
+  shell: grep SECRET_KEY_BASE .profile
+  register: profile_check
+
+- name: Create secret token
+  shell: "{{ rvm_wrapper_command }} bash -lc 'echo -e \"export SECRET_KEY_BASE=`bundle exec rake secret`\" >> ~/.profile'"
+  when: profile_check|failed
 
 - name: Run bundle install
-  shell: "{{ rvm_wrapper_command }} bash -lc  bundle install --path {{ shared_path }}/bundle --deployment --without development test"
+  shell: "{{ rvm_wrapper_command }} bash -lc 'bundle install --path {{ shared_path }}/bundle --deployment --without development test'"
 
 - name: Run db:migrate
-  shell: "{{ rvm_wrapper_command }} bash -lc bundle exec rake db:migrate"
+  shell: "{{ rvm_wrapper_command }} bash -lc 'RAILS_ENV={{rails_env_name}} bundle exec rake db:migrate'"
 
 - name: Precompile assets
-  shell: "{{ rvm_wrapper_command }} bash -lc bundle exec rake assets:precompile"
+  shell: "{{ rvm_wrapper_command }} bash -lc 'RAILS_ENV={{rails_env_name}} bundle exec rake assets:precompile'"
 
 - name: Update app version
   file: src={{ release_path }} path={{ app_path }}/current state=link

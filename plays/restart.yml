@@ -5,8 +5,6 @@
   # Don't need to gather facts about the system
   gather_facts: no
 
-  tasks:   
-    - include: ../tasks/install_rvm.yml
-    - include: ../tasks/install_ruby.yml
-
-- include: deploy.yml
+  tasks:
+    - include: ../tasks/app_stop.yml
+    - include: ../tasks/app_start.yml

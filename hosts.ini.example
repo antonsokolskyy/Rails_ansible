@@ -1,27 +1,27 @@
-[host]
-xxx.xxx.xxx.xxx
+[ansible_demo]
+188.166.164.221
 
-[host:vars]
+[ansible_demo:vars]
 ; application name
-app_name=
+app_name=ansible-demo
 ; ruby version you want to use/install on target machine
-ruby_version=
+ruby_version=2.2.3
 ; rvm gemset name
-ruby_gemset=
+ruby_gemset=ansible-demo
 ; user name that will be created and hosts the application
-deploy_user_name=
+deploy_user_name=ansible
 ; user password
-deploy_user_password=
+deploy_user_password=123123123
 ; path to your local ssh.pub file
-path_to_ssh_file=
+path_to_ssh_file=/home/myuser/.ssh/id_rsa.pub
 # uses for nginx configuration
-server_name=xxx.xxx.xxx.xxx
+server_name=248.162.194.210
 
 ; root user on target machine, required in order to create deploy user(for root play only)
 root_user=root
 
 ; git repository uri
-git_repo=
+git_repo=git@bitbucket.org:myuser/ansible_demo.git
 git_branch=master
 rails_env_name=production
 ; application absolute path
@@ -36,6 +36,6 @@ keep_releases=5
 database_adapter=postgresql
 database_name={{app_name}}_{{rails_env_name}}
 database_username={{deploy_user_name}}
-database_password=''
+database_password='321321321'
 database_host=localhost
 database_port=5432
