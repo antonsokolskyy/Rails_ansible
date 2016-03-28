@@ -1,6 +1,7 @@
 - name: check for user presence
   shell: "getent passwd {{deploy_user_name}}"
   register: user_presence
+  ignore_errors: yes
 
 - name: create user
   # use user module
