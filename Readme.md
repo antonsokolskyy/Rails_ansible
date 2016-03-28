@@ -10,10 +10,13 @@ Four simple steps:
     - sudo apt-add-repository ppa:ansible/ansible
     - sudo apt-get update
     - sudo apt-get install ansible  
+
 ##### - Clone this repo to your Rails project directory  
+
 ##### - Add target hosts and modify deploy variables in 'hosts.ini' file  
+
 ##### - Run 'ansible-playbook playbook.yml' inside ansible directory  
-  
+
 #### Note:
 
 Be advised that the root play contains tasks for setting up linux environment and creates a user for deploying an application, in order to use it you need a user with root privileges on target machine.
@@ -29,12 +32,17 @@ Do not forget to add target machine ssh key to a repo you will be pull from.
 #### Configure Environment
 
 If you don't want to install rvm and deploy any app, you can create new user, install and configure Postgresql, MySQL, Nginx, NodeJs, Redis and common libraries such as libpq-dev, openssl etc by simply run:
-- 'ansible-playbook plays/root.yml'
-#### Deploy/Redeploy
-- 'ansible-playbook plays/deploy.yml'
-#### Restart
-- 'ansible-playbook plays/restart.yml'
-### How it works:
+- 'ansible-playbook plays/root.yml'  
+
+#### Deploy/Redeploy  
+
+- 'ansible-playbook plays/deploy.yml'  
+
+#### Restart  
+
+- 'ansible-playbook plays/restart.yml'  
+
+### How it works:  
 
 ###### These steps are being taken after 'ansible-playbook playbook.yml' is called:
 - Create user for deploy (using root privileges on remote machine).
@@ -42,8 +50,10 @@ If you don't want to install rvm and deploy any app, you can create new user, in
 - Install RDBMS, packages and libraries
 - Setup Postgresql and MySQL
 - Configure Nginx
-- Print new user ssh key to console
-###### At this point root play is over. User play starts
+- Print new user ssh key to console  
+
+###### At this point root play is over. User play starts  
+
 - Install RVM
 - Install Ruby
 - Set up project directory(create subfolders and symlinks)
