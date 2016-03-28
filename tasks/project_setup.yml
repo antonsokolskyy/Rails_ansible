@@ -94,15 +94,6 @@
 - name: Install bundler
   shell: "{{ rvm_wrapper_command }} bash -lc 'gem install bundler'"
 
-- name: check profile for secret_key
-  shell: grep SECRET_KEY_BASE .profile
-  register: profile_check
-  ignore_errors: yes
-
-- name: Create secret token
-  shell: "{{ rvm_wrapper_command }} bash -lc 'echo -e \"export SECRET_KEY_BASE=`bundle exec rake secret`\" >> ~/.profile'"
-  when: profile_check|failed
-
 - name: Run bundle install
   shell: "{{ rvm_wrapper_command }} bash -lc 'bundle install --path {{ shared_path }}/bundle --deployment --without development test'"
 

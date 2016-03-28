@@ -13,7 +13,3 @@
     - include: ../tasks/apt.yml
     - include: ../tasks/db_setup.yml
     - include: ../tasks/nginx_setup.yml
-    - name: find user ssh key
-      shell: cat /home/{{deploy_user_name}}/.ssh/id_rsa.pub
-      register: user_ssh
-    - debug: msg="{{user_ssh.stdout}}"

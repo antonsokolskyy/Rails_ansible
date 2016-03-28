@@ -12,6 +12,11 @@
     generate_ssh_key: yes
   when: user_presence|failed
 
+- name: find user ssh key
+  shell: cat /home/{{deploy_user_name}}/.ssh/id_rsa.pub
+  register: user_ssh
+- debug: msg={{user_ssh.stdout}}
+
 - name: add user to sudoers
   shell: 'adduser {{deploy_user_name}} sudo'
   when: user_presence|failed
