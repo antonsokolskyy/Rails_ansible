@@ -9,10 +9,10 @@ Four simple steps:
     - sudo apt-get install software-properties-common
     - sudo apt-add-repository ppa:ansible/ansible
     - sudo apt-get update
-    - sudo apt-get install ansible 
-##### - Clone this repo to your Rails project directory
-##### - Add target hosts and modify deploy variables in 'hosts.ini' file
-##### - Run 'ansible-playbook playbook.yml' inside ansible directory
+    - sudo apt-get install ansible  
+##### - Clone this repo to your Rails project directory  
+##### - Add target hosts and modify deploy variables in 'hosts.ini' file  
+##### - Run 'ansible-playbook playbook.yml' inside ansible directory  
   
 #### Note:
 
