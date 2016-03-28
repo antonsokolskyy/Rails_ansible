@@ -11,7 +11,7 @@ Four simple steps:
     - sudo apt-get update
     - sudo apt-get install ansible  
 
-##### - Clone this repo to your Rails project directory  
+##### - Clone this repo to any directory  
 
 ##### - Add target hosts and modify deploy variables in 'hosts.ini' file  
 
