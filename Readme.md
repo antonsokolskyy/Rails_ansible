@@ -62,4 +62,15 @@ If you don't want to install rvm and deploy any app, you can create new user, in
 - Install gems
 - Run migrations
 - Configure app server
-- Run the application
+- Run the application  
+
+#### Supported DBs:  
+
+- Postgresql
+- MySQL
+- SQLite
+- Redis  
+
+#### Application servers:  
+
+- Unicorn
