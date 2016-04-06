@@ -1,13 +1,4 @@
 - set_fact: rvm_wrapper_command="cd {{current_path}} && ~/.rvm/bin/rvm ruby-{{ruby_version}}@{{ruby_gemset}} --create do"
 
-- name: check profile for secret_key
-  shell: grep SECRET_KEY_BASE .profile
-  register: profile_check
-  ignore_errors: yes
-
-- name: Create secret token
-  shell: "{{ rvm_wrapper_command }} bash -lc 'echo -e \"export SECRET_KEY_BASE=`bundle exec rake secret`\" >> ~/.profile'"
-  when: profile_check|failed
-
 - name: start unicorn
   shell: "{{ rvm_wrapper_command }} bash -lc 'bundle exec unicorn_rails -c config/unicorn.rb -E {{rails_env_name}} -D'"
