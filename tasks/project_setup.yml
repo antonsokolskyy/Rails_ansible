@@ -91,20 +91,20 @@
 
 - set_fact: rvm_wrapper_command="cd {{release_path}} && ~/.rvm/bin/rvm ruby-{{ruby_version}}@{{ruby_gemset}} --create do"
 
-# - name: install nodeJS 4.4 using nvm
-#   shell: "/bin/bash -lc 'nvm install 4.4'"
-#
-# - name: set default nodejs
-#   shell: "bash -lc 'nvm use default'"
-#
-# - name: install bower
-#   shell: "bash -lc 'npm install -g bower'"
-#
-# - name: install phantomjs2
-#   shell: "bash -lc 'npm install -g phantomjs2'"
-#
-# - name: install ember-cli
-#   shell: "bash -lc 'npm install -g ember-cli'"
+- name: install nodeJS 4.4 using nvm
+  shell: "/bin/bash -lc 'nvm install 4.4'"
+
+- name: set default nodejs
+  shell: "bash -lc 'nvm use default'"
+
+- name: install bower
+  shell: "bash -lc 'npm install -g bower'"
+
+- name: install phantomjs2
+  shell: "bash -lc 'npm install -g phantomjs2'"
+
+- name: install ember-cli
+  shell: "bash -lc 'npm install -g ember-cli'"
 
 - name: bower install
   shell: "cd {{release_path}}/frontend bash -lc 'bower install'"
