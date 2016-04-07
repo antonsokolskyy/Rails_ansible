@@ -2,8 +2,10 @@
 - hosts: all
   # Log in as user
   remote_user: '{{deploy_user_name}}'
+  # Use sudo
+  become: yes
   # Don't need to gather facts about the system
   gather_facts: no
 
-  tasks:   
-    - include: ../tasks/install_ruby.yml
+  tasks:
+    - include: ../tasks/apt.yml
