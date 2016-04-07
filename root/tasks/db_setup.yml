@@ -1,0 +1,5 @@
+- name: Create MySQL role
+  mysql_user: name=admin password=321321321 priv=*.*:ALL state=present
+
+- name: Create MySQL DB
+  mysql_db: name=virtual_incubator

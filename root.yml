@@ -1,0 +1,11 @@
+- hosts: all
+  remote_user: root
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - include: root/tasks/create_user.yml
+    - include: root/tasks/copy_ssh.yml
+    - include: root/tasks/apt.yml
+    - include: root/tasks/db_setup.yml
+    - include: root/tasks/nginx_setup.yml

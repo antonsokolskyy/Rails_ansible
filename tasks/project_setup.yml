@@ -91,11 +91,32 @@
 
 - set_fact: rvm_wrapper_command="cd {{release_path}} && ~/.rvm/bin/rvm ruby-{{ruby_version}}@{{ruby_gemset}} --create do"
 
+# - name: install nodeJS 4.4 using nvm
+#   shell: "/bin/bash -lc 'nvm install 4.4'"
+#
+# - name: set default nodejs
+#   shell: "bash -lc 'nvm use default'"
+#
+# - name: install bower
+#   shell: "bash -lc 'npm install -g bower'"
+#
+# - name: install phantomjs2
+#   shell: "bash -lc 'npm install -g phantomjs2'"
+#
+# - name: install ember-cli
+#   shell: "bash -lc 'npm install -g ember-cli'"
+
+- name: bower install
+  shell: "cd {{release_path}}/frontend bash -lc 'bower install'"
+
+- name: npm install
+  shell: "cd {{release_path}}/frontend bash -lc 'rm -r node_modules && npm install'"
+
 - name: Install bundler
   shell: "{{ rvm_wrapper_command }} bash -lc 'gem install bundler'"
 
 - name: Run bundle install
-  shell: "{{ rvm_wrapper_command }} bash -lc 'bundle install --path {{ shared_path }}/bundle --deployment --without development test'"
+  shell: "{{ rvm_wrapper_command }} bash -lc 'bundle install --path {{ shared_path }}/bundle --without development test'"
 
 - name: Run db:migrate
   shell: "{{ rvm_wrapper_command }} bash -lc 'RAILS_ENV={{rails_env_name}} bundle exec rake db:migrate'"

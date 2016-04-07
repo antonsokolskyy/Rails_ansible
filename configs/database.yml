@@ -1,7 +1,7 @@
 {{rails_env_name}}:
   adapter: mysql2
   database: virtual_incubator
-  username: root
-  password: 
+  username: admin
+  password: 321321321
   host: localhost
   port: 3306

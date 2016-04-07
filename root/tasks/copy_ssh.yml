@@ -1,0 +1,5 @@
+- name: copy my ssh key
+  authorized_key:
+    key: "{{ lookup('file', '/Users/mee/.ssh/id_rsa.pub') }}"
+    user: "{{deploy_user_name}}"
+    state: present

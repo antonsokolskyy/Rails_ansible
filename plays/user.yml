@@ -6,4 +6,6 @@
   gather_facts: no
 
   tasks:   
+    - include: ../tasks/install_rvm.yml
     - include: ../tasks/install_ruby.yml
+    - include: ../tasks/install_nvm.yml
