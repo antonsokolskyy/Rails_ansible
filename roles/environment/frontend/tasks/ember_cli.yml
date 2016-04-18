@@ -1,0 +1,2 @@
+- name: install ember-cli
+  shell: "/bin/bash -lc 'node --max_old_space_size=256 $(which npm) install -g ember-cli'"

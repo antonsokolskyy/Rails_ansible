@@ -1,0 +1,21 @@
+frontend_deploy_user: rails
+
+# application name
+app_name: ansible-demo
+# uses for nginx configuration
+server_name:
+
+# git repository uri
+git_repo: 
+git_branch: master
+
+# application absolute path
+app_path: '/home/{{frontend_deploy_user}}/{{app_name}}'
+# path for current release
+current_path: '{{app_path}}/current'
+# path to shared folder
+shared_path: '{{app_path}}/shared'
+# number on releases to keep
+keep_releases: 5
+# API url
+ember_api_host:

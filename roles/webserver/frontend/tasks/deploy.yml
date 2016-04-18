@@ -1,0 +1,52 @@
+- set_fact: timestamp="{{ lookup('pipe', 'date +%Y%m%d%H%M%S') }}"
+- set_fact: release_path={{ app_path }}/releases/{{ timestamp }}
+
+- name: Ensure shared directory exists
+  file: path={{ shared_path }} state=directory
+
+- name: Ensure releases directory exists
+  file: path={{ app_path }}/releases state=directory
+
+#
+# prepare release directory
+#
+
+- name: Leave only last releases
+  shell: "cd {{ app_path }}/releases && find ./ -maxdepth 1 | grep -G .............. | sort -r | tail -n +{{ keep_releases }} | xargs rm -rf"
+
+- name: Create release directory
+  file: path={{ release_path }} state=directory
+
+#
+# checkout git
+#
+
+- name: Checkout git repo into release directory
+  git:
+    repo={{ git_repo }}
+    dest={{ release_path }}
+    version={{ git_branch }}
+    accept_hostkey=yes
+
+- name: Get git branch head hash
+  shell: "cd {{ release_path }} && git rev-parse --short HEAD"
+  register: git_head_hash
+
+- name: Create REVISION file in the release path
+  copy: content={{ git_head_hash.stdout }} dest={{ release_path }}/REVISION
+
+#
+# prepare app
+#
+
+- name: bower install
+  shell: "cd {{release_path}} && /bin/bash -lc 'bower install'"
+
+- name: npm install
+  shell: "cd {{release_path}} && /bin/bash -lc 'node --max_old_space_size=256 $(which npm) install'"
+
+- name: build production
+  shell: "cd {{release_path}} && /bin/bash -lc 'ember build --environment=production'"
+
+- name: Update app version
+  file: src={{ release_path }} path={{ app_path }}/current state=link

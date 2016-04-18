@@ -1,0 +1,5 @@
+- name: install rvm
+  shell: 'command curl -sSL https://rvm.io/mpapis.asc | gpg --import - && \curl -L https://get.rvm.io | bash -s stable --autolibs=3'
+
+- name: install ruby
+  shell: '~/.rvm/bin/rvm autolibs disable && ~/.rvm/bin/rvm install {{ruby_version}}'

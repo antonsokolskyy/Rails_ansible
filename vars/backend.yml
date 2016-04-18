@@ -1,0 +1,9 @@
+backend_deploy_user: rails
+ruby_version: 2.2.3
+
+database_adapter: postgresql
+database_username: rails
+database_password: '321321321'
+database_name: test_db
+database_host: localhost
+database_port: 5432

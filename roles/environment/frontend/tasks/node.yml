@@ -1,0 +1,5 @@
+- name: install nodeJS using nvm
+  shell: "/bin/bash -lc 'nvm install stable'"
+
+- name: set default nodejs
+  shell: "/bin/bash -lc 'nvm use stable'"

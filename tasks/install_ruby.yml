@@ -1,2 +1,0 @@
-- name: install ruby
-  shell: '~/.rvm/bin/rvm autolibs disable && ~/.rvm/bin/rvm install --default {{ruby_version}}'

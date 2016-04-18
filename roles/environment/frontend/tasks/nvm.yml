@@ -1,0 +1,8 @@
+- name: install nvm
+  shell: "/bin/bash -lc 'curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | bash'"
+
+- name: Source nvm in ~/.profile
+  lineinfile: >
+    dest=~/.profile
+    line="source ~/.nvm/nvm.sh"
+    create=yes

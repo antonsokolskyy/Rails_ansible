@@ -1,0 +1,11 @@
+server {
+ listen 80 default_server;
+ server_name {{server_name}};
+ root {{current_path}}/dist;
+ index index.html;
+ location / {
+   gzip on;
+   try_files $uri $uri/ /index.html;
+   expires max;
+ }
+}

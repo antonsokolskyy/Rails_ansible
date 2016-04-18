@@ -1,0 +1,14 @@
+---
+- hosts: backend
+  vars_files:
+    - vars/backend.yml
+  user: '{{backend_deploy_user}}'
+
+  roles:
+    - environment/backend
+    # - database
+    # - webserver/backend
+
+  # handlers:
+  #   - name: Restart puma
+  #     action: service name=puma state=restarted

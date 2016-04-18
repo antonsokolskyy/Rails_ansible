@@ -1,0 +1,7 @@
+- name: Create MySQL role
+  become: yes
+  mysql_user: name={{database_username}} password={{database_password}} priv=*.*:ALL state=present
+
+- name: Create MySQL DB
+  become: yes
+  mysql_db: name={{database_name}}

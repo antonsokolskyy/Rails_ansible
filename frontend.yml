@@ -1,0 +1,9 @@
+---
+- hosts: frontend
+  vars_files:
+    - vars/frontend.yml
+  user: '{{frontend_deploy_user}}'
+
+  roles:
+    - environment/frontend
+    - webserver/frontend

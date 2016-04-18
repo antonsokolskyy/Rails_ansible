@@ -1,0 +1,9 @@
+- name: Create Postgresql role
+  become: yes
+  become_user: postgres
+  postgresql_user: name={{database_username}} password={{database_password}} role_attr_flags=CREATEDB,NOSUPERUSER,LOGIN
+
+- name: Create Postgresql DB
+  become: yes
+  become_user: postgres
+  postgresql_db: name={{database_name}} encoding='UTF-8' owner={{database_username}}

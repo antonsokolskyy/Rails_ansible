@@ -1,0 +1,12 @@
+- include: nvm.yml
+  tags: nvm
+- include: node.yml
+  tags: node
+- include: bower.yml
+  tags: bower
+- include: phantomjs.yml
+  tags: phantomjs
+- include: ember_cli.yml
+  tags: ember_cli
+- include: env_var.yml
+  tags: env_var

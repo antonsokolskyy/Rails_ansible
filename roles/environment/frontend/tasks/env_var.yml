@@ -1,0 +1,8 @@
+- name: check profile for EMBER_API_HOST
+  shell: grep EMBER_API_HOST ~/.profile
+  register: profile_check
+  ignore_errors: yes
+
+- name: Create EMBER_API_HOST
+  shell: "/bin/bash -lc 'echo -e \"export EMBER_API_HOST={{ember_api_host}}\" >> ~/.profile'"
+  when: profile_check|failed
