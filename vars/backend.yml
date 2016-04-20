@@ -1,5 +1,22 @@
 backend_deploy_user: rails
 ruby_version: 2.2.3
+ruby_gemset: ansible_api_demo
+app_name: ansible_api
+
+git_repo: 
+git_branch: master
+rails_env_name: production
+# application absolute path
+app_path: '/home/{{backend_deploy_user}}/{{app_name}}'
+# path for current release
+current_path: '{{app_path}}/current'
+# path to shared folder
+shared_path: '{{app_path}}/shared'
+# number on releases to keep
+keep_releases: 5
+
+# uses for nginx configuration
+server_name:
 
 database_adapter: postgresql
 database_username: rails
@@ -7,3 +24,7 @@ database_password: '321321321'
 database_name: test_db
 database_host: localhost
 database_port: 5432
+
+puma_workers: 1
+puma_min_threads: 1
+puma_max_threads: 6

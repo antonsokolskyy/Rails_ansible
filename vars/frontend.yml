@@ -18,4 +18,4 @@ shared_path: '{{app_path}}/shared'
 # number on releases to keep
 keep_releases: 5
 # API url
-ember_api_host:
+ember_api_host: 

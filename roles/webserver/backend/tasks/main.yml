@@ -2,7 +2,7 @@
   tags: ruby
 - include: nginx.yml
   tags: nginx
-- include: puma.yml
-  tags: puma
 - include: deploy.yml
   tags: deploy
+- include: puma.yml
+  tags: puma

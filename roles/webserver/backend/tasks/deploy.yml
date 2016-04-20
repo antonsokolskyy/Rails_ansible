@@ -1,0 +1,95 @@
+#
+# ensure directories existance
+#
+
+- set_fact: timestamp="{{ lookup('pipe', 'date +%Y%m%d%H%M%S') }}"
+- set_fact: release_path={{ app_path }}/releases/{{ timestamp }}
+
+- name: Ensure directories exists
+  file: path={{ item }} state=directory
+  with_items:
+    - '{{ shared_path }}'
+    - '{{ shared_path }}/assets'
+    - '{{ shared_path }}/tmp'
+    - '{{ shared_path }}/log'
+    - '{{ shared_path }}/bundle'
+    - '{{ app_path }}/releases'
+
+#
+# prepare release directory
+#
+
+- name: Leave only last releases
+  shell: "cd {{ app_path }}/releases && find ./ -maxdepth 1 | grep -G .............. | sort -r | tail -n +{{ keep_releases }} | xargs rm -rf"
+
+- name: Create release directory
+  file: path={{ release_path }} state=directory
+
+#
+# checkout git
+#
+
+- name: Checkout git repo into release directory
+  git:
+    repo={{ git_repo }}
+    dest={{ release_path }}
+    version={{ git_branch }}
+    accept_hostkey=yes
+
+- name: Get git branch head hash
+  shell: "cd {{ release_path }} && git rev-parse --short HEAD"
+  register: git_head_hash
+
+- name: Create REVISION file in the release path
+  copy: content={{ git_head_hash.stdout }} dest={{ release_path }}/REVISION
+
+#
+# set release symlinks
+#
+
+- name: Remove folders
+  file: path={{ item }} state=absent
+  with_items:
+    - '{{ release_path }}/public/assets'
+    - '{{ release_path }}/tmp'
+    - '{{ release_path }}/log'
+
+- name: Set links
+  file: src={{ item.src }} path={{ item.path }} state=link
+  with_items:
+    - { src: '{{ shared_path }}/assets', path: '{{ release_path }}/public/assets' }
+    - { src: '{{ shared_path }}/tmp', path: '{{ release_path }}/tmp' }
+    - { src: '{{ shared_path }}/log', path: '{{ release_path }}/log' }
+
+#
+# prepare app
+#
+
+- name: Remove ymls
+  file: path={{ item }} state=absent
+  with_items:
+    - '{{ release_path }}/config/secrets.yml'
+    - '{{ release_path }}/config/database.yml'
+
+- name: Copy ymls
+  template: src={{ item.src }} dest={{ item.dest }}
+  with_items:
+    - { src: 'roles/webserver/backend/templates/database.yml', dest: '{{ release_path }}/config' }
+    - { src: 'roles/webserver/backend/templates/secrets.yml', dest: '{{ release_path }}/config' }
+
+- set_fact: rvm_wrapper_command="cd {{release_path}} && ~/.rvm/bin/rvm ruby-{{ruby_version}}@{{ruby_gemset}} --create do"
+
+- name: Install bundler
+  shell: "{{ rvm_wrapper_command }} bash -lc 'gem install bundler'"
+
+- name: Run bundle install
+  shell: "{{ rvm_wrapper_command }} bash -lc 'bundle install --path {{ shared_path }}/bundle --deployment --without development test'"
+
+- name: Run db:migrate
+  shell: "{{ rvm_wrapper_command }} bash -lc 'RAILS_ENV={{rails_env_name}} bundle exec rake db:migrate'"
+
+- name: Precompile assets
+  shell: "{{ rvm_wrapper_command }} bash -lc 'RAILS_ENV={{rails_env_name}} bundle exec rake assets:precompile'"
+
+- name: Update app version
+  file: src={{ release_path }} path={{ app_path }}/current state=link

@@ -6,9 +6,5 @@
 
   roles:
     - environment/backend
-    # - database
-    # - webserver/backend
-
-  # handlers:
-  #   - name: Restart puma
-  #     action: service name=puma state=restarted
+    - database
+    - webserver/backend

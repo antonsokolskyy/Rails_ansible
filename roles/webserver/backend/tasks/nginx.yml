@@ -1,0 +1,19 @@
+- name: Remove the default app config if exists
+  become: yes
+  file: path=/etc/nginx/sites-enabled/default state=absent
+
+- name: Remove the app's symlink if exists
+  become: yes
+  file: path=/etc/nginx/sites-enabled/{{app_name}} state=absent
+
+- name: Configure nginx for the app
+  become: yes
+  template: src=roles/webserver/backend/templates/etc_nginx_sites-available.conf.j2 dest=/etc/nginx/sites-available/{{app_name}} group=www-data owner=www-data force=yes
+
+- name: Enable the app
+  become: yes
+  file: src=/etc/nginx/sites-available/{{app_name}} path=/etc/nginx/sites-enabled/{{app_name}} state=link
+
+- name: Restart nginx
+  become: yes
+  action: service name=nginx state=restarted
