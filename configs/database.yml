@@ -1,6 +1,6 @@
 {{rails_env_name}}:
   adapter: mysql2
-  database: virtual_incubator
+  database: rails_ember_test_db
   username: admin
   password: 321321321
   host: localhost
